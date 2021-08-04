@@ -1,0 +1,29 @@
+{
+    "name": "fat-zebra.service",
+    "version": "1.0.0",
+    "description": "",
+    "main": "fat-zebra.js",
+    "scripts": {
+        "start": "nodemon --exec babel-node token.js",
+        "test": "jest --watch --silent"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/pixellini/FatZebra.Service.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/pixellini/FatZebra.Service/issues"
+    },
+    "homepage": "https://github.com/pixellini/FatZebra.Service#readme",
+    "dependencies": {
+        "@babel/core": "^7.14.8",
+        "@babel/node": "^7.14.7",
+        "@babel/preset-env": "^7.14.8",
+        "axios": "^0.21.1",
+        "jest": "^27.0.6",
+        "moment": "^2.29.1",
+        "nodemon": "^2.0.12"
+    }
+}
