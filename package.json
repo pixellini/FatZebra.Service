@@ -1,5 +1,5 @@
 {
-    "name": "fat-zebra-service",
+    "name": "@pixellini/fat-zebra",
     "version": "1.0.0",
     "description": "",
     "main": "fat-zebra.js",
