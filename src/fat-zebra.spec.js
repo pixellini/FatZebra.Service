@@ -44,10 +44,20 @@ describe('FatZebra Service', () => {
         expect(response).toBe(responseData)
     })
 
-    it('should fail', async () => {
+    it.each`
+        statusCode  | errorCode
+        ${ 99 }     | ${ 'INVALID_VERIFICATION' }
+        ${ 95 }     | ${ 'INVALID_USERNAME' }
+        ${ 97 }     | ${ 'INVALID_VALIDATION' }
+        ${ 999 }    | ${ 'GATEWAY_ERROR' }
+    `('should throw an error with a status code of $statusCode and return $errorCode as message code', async ({ statusCode, errorCode }) => {
         // Arrange
+        const expectedErrorObject = JSON.stringify({
+            status: statusCode,
+            code: errorCode
+        })
         const responseData = {
-            r: 99
+            r: statusCode
         }
         
         fetchJsonp.mockResolvedValueOnce({ 
@@ -58,7 +68,7 @@ describe('FatZebra Service', () => {
 
         // Act
         try {
-            const response = () => zebraService.tokenizeCard({
+            await zebraService.tokenizeCard({
                 "card_holder": "John Smith",
                 "card_number": "4005 5500 0000 0001",
                 "expiry_month": 2,
@@ -70,10 +80,53 @@ describe('FatZebra Service', () => {
             })
         } 
         catch (error) {
-            console.log(error)
             // Assert
-            expect(error).toBe('')
+            expect(error).toEqual(expectedErrorObject)
         }
+    })
 
+    it.each`
+        dataKey
+        ${ 'card_holder' }
+        ${ 'card_number' }
+        ${ 'expiry_month' }
+        ${ 'expiry_year' }
+        ${ 'cvv' }
+        ${ 'is_billing' }
+        ${ 'return_path' }
+        ${ 'verification' }
+    `('should throw an error when $dataKey is empty', async ({ dataKey }) => {
+        // Arrange
+        const expectedError = `[Fat Zebra] | ${ dataKey } is empty`
+        const dataObject = {
+            "card_holder": "John Smith",
+            "card_number": "4005 5500 0000 0001",
+            "expiry_month": 2,
+            "expiry_year": 2023,
+            "cvv": "255",
+            "is_billing": false,
+            "return_path": "au.com.lunchfox",
+            "verification": "0050e20fb44e12f7f091f48ebfa63565"
+        }
+        
+        fetchJsonp.mockResolvedValueOnce({ 
+            json: () => {
+                return {
+                    r: 1
+                }
+            } 
+        })
+
+        // Act
+        delete dataObject[ dataKey ]
+        // console.log(dataKey, dataObject)
+
+        try {
+            await zebraService.tokenizeCard(dataObject)
+        } 
+        catch (error) {
+            // Assert
+            expect(error).toEqual(expectedError)
+        }
     })
 })
