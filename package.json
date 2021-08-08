@@ -2,10 +2,11 @@
     "name": "fat-zebra-service",
     "version": "1.0.0",
     "description": "",
-    "main": "src/fat-zebra.js",
+    "main": "dist/bundle.js",
     "scripts": {
         "dev": "webpack serve --mode development --open",
         "start": "webpack --mode production && node server.js",
+        "build": "webpack --mode production",
         "test": "jest --watch"
     },
     "repository": {
