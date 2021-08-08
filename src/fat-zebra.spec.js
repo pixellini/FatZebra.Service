@@ -8,7 +8,11 @@ describe('FatZebra Service', () => {
     let zebraService 
 
     beforeEach(() => {
-        zebraService = new FatZebraService('http://localhost:3000/fake-url')
+        zebraService = new FatZebraService({
+            url: 'http://localhost:3000/fake-url',
+            return_path: 'au.com.lunchfox',
+            verification: '0050e20fb44e12f7f091f48ebfa63565'
+        })
     })
 
     it('should tokenize a card', async () => {
@@ -35,9 +39,7 @@ describe('FatZebra Service', () => {
             "expiry_month": 2,
             "expiry_year": 2023,
             "cvv": "255",
-            "is_billing": false,
-            "return_path": "au.com.lunchfox",
-            "verification": "0050e20fb44e12f7f091f48ebfa63565"
+            "is_billing": false
         })
 
         // Assert
@@ -74,9 +76,7 @@ describe('FatZebra Service', () => {
                 "expiry_month": 2,
                 "expiry_year": 2023,
                 "cvv": "255",
-                "is_billing": false,
-                "return_path": "au.com.lunchfox",
-                "verification": "0050e20fb44e12f7f091f48ebfa63565"
+                "is_billing": false
             })
         } 
         catch (error) {
@@ -92,8 +92,6 @@ describe('FatZebra Service', () => {
         ${ 'expiry_month' }
         ${ 'expiry_year' }
         ${ 'cvv' }
-        ${ 'return_path' }
-        ${ 'verification' }
     `('should throw an error when the required $dataKey key is empty', async ({ dataKey }) => {
         // Arrange
         const expectedError = `[Fat Zebra] | ${ dataKey } is empty`
@@ -103,9 +101,7 @@ describe('FatZebra Service', () => {
             "expiry_month": 2,
             "expiry_year": 2023,
             "cvv": "255",
-            "is_billing": false,
-            "return_path": "au.com.lunchfox",
-            "verification": "0050e20fb44e12f7f091f48ebfa63565"
+            "is_billing": false
         }
         
         fetchJsonp.mockResolvedValueOnce({ 

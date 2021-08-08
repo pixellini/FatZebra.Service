@@ -16,9 +16,7 @@ const REQUIRED_KEYS = [
     'card_number',
     'expiry_month',
     'expiry_year',
-    'cvv',
-    'return_path',
-    'verification',
+    'cvv'
 ]
 const ERROR_PREFIX              = '[Fat Zebra] | '
 const ERROR_GENERIC             = ERROR_PREFIX + 'Something went wrong'
@@ -41,8 +39,10 @@ const ERROR_INVALID_EXPIRY      = ERROR_PREFIX + 'Expiry date has already passed
  */
 class FatZebraService {
     url = ''
+    return_path = ''
+    verification = ''
 
-    constructor (url) {
+    constructor ({ url, return_path, verification }) {
         if (!url || url === '') {
             throw(ERROR_URL_NOT_PROVIDED)
         }
@@ -52,6 +52,8 @@ class FatZebraService {
         }
 
         this.url = url
+        this.return_path = return_path
+        this.verification = verification
     }
 
     /**
@@ -133,7 +135,13 @@ class FatZebraService {
         try {
             this.verifyPayload(data)
 
-            const params = new URLSearchParams(data).toString()
+            const dataObj = {
+                ...data,
+                return_path: this.return_path,
+                verification: this.return_path
+            }
+
+            const params = new URLSearchParams(dataObj).toString()
 
             // Convert response into JSON format
             const response = await fetchJsonp(this.url + '?' + params)
