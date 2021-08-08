@@ -92,10 +92,9 @@ describe('FatZebra Service', () => {
         ${ 'expiry_month' }
         ${ 'expiry_year' }
         ${ 'cvv' }
-        ${ 'is_billing' }
         ${ 'return_path' }
         ${ 'verification' }
-    `('should throw an error when $dataKey is empty', async ({ dataKey }) => {
+    `('should throw an error when the required $dataKey key is empty', async ({ dataKey }) => {
         // Arrange
         const expectedError = `[Fat Zebra] | ${ dataKey } is empty`
         const dataObject = {
@@ -119,13 +118,17 @@ describe('FatZebra Service', () => {
 
         // Act
         delete dataObject[ dataKey ]
-        // console.log(dataKey, dataObject)
 
         try {
             await zebraService.tokenizeCard(dataObject)
+            
+            // Should not hit here. 
+            // This is for when the tokenizeCard fails to throw the correct error.
+            throw('Test failed')
         } 
+
+        // Assert
         catch (error) {
-            // Assert
             expect(error).toEqual(expectedError)
         }
     })
