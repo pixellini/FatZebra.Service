@@ -2,7 +2,7 @@
     "name": "fat-zebra-service",
     "version": "1.0.0",
     "description": "",
-    "main": "dist/bundle.js",
+    "main": "src/index.js",
     "scripts": {
         "dev": "webpack serve --mode development --open",
         "start": "webpack --mode production && node server.js",
