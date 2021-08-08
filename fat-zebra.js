@@ -38,11 +38,7 @@ const ERROR_INVALID_EXPIRY      = ERROR_PREFIX + 'Expiry date has already passed
  * await zebraService.tokenizeCard({ ... })
  */
 class FatZebraService {
-    url = ''
-    return_path = ''
-    verification = ''
-
-    constructor ({ url, return_path, verification }) {
+    constructor ({ url = '', return_path = '', verification = '' }) {
         if (!url || url === '') {
             throw(ERROR_URL_NOT_PROVIDED)
         }
@@ -62,7 +58,7 @@ class FatZebraService {
      * @param { Object } data - main data object
      * @returns { Boolean }
      */
-    hasEmptyValue = (data = {}) => {
+    hasEmptyValue (data = {}) {
         return REQUIRED_KEYS.find(key => {
             let value = data[key]
             
@@ -111,7 +107,7 @@ class FatZebraService {
      * 
      * @param { Object } res - should contain an "r" key for the response status
      */
-    checkResponseForErrors = (res = {}) => {
+    checkResponseForErrors (res = {}) {
         if (!res || !res.r) {
             throw(ERROR_GENERIC)
         }
