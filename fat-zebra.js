@@ -1,7 +1,7 @@
-import 'core-js/stable'
-import 'regenerator-runtime/runtime'
-import fetchJsonp from 'fetch-jsonp'
-import { isLength } from 'validator'
+const fetchJsonp = require('fetch-jsonp')
+const validator = require('validator')
+
+const { isLength } = validator
 
 // Constants
 const RESPONSE_CODES = {
@@ -157,4 +157,4 @@ class FatZebraService {
     }
 }
 
-export default FatZebraService
+module.exports = FatZebraService

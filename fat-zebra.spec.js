@@ -1,6 +1,5 @@
-import FatZebraService from './fat-zebra'
-import fetchJsonp from 'fetch-jsonp'
-import { expect, jest } from '@jest/globals'
+const FatZebraService = require('./fat-zebra')
+const fetchJsonp = require('fetch-jsonp')
 
 jest.mock('fetch-jsonp')
 
