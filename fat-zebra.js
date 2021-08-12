@@ -134,7 +134,7 @@ class FatZebraService {
             const dataObj = {
                 ...data,
                 return_path: this.return_path,
-                verification: this.return_path
+                verification: this.verification
             }
 
             const params = new URLSearchParams(dataObj).toString()

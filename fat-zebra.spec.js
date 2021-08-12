@@ -34,7 +34,7 @@ describe('FatZebra Service', () => {
         // Act
         const response = await zebraService.tokenizeCard({
             "card_holder": "John Smith",
-            "card_number": "4005 5500 0000 0001",
+            "card_number": "4005550000000001",
             "expiry_month": 2,
             "expiry_year": 2023,
             "cvv": "255",
