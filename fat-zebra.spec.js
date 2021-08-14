@@ -93,7 +93,7 @@ describe('FatZebra Service', () => {
         ${ 'cvv' }
     `('should throw an error when the required $dataKey key is empty', async ({ dataKey }) => {
         // Arrange
-        const expectedError = `[Fat Zebra] | ${ dataKey } is empty`
+        const expectedError = `${ dataKey } is empty.`
         const dataObject = {
             "card_holder": "John Smith",
             "card_number": "4005 5500 0000 0001",

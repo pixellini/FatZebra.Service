@@ -18,15 +18,14 @@ const REQUIRED_KEYS = [
     'expiry_year',
     'cvv'
 ]
-const ERROR_PREFIX              = '[Fat Zebra] | '
-const ERROR_GENERIC             = ERROR_PREFIX + 'Something went wrong'
-const ERROR_URL_NOT_PROVIDED    = ERROR_PREFIX + 'URL not provided'
-const ERROR_URL_NOT_STRING      = ERROR_PREFIX + 'URL must be of type string'
-const ERROR_KEY_NOT_PROVIDED    = ERROR_PREFIX + '%KEY% is empty'
-const ERROR_INVALID_CARD_HOLDER = ERROR_PREFIX + 'Card holder name is invalid'
-const ERROR_INVALID_CARD_NUMBER = ERROR_PREFIX + 'Card number is invalid'
-const ERROR_INVALID_CVV         = ERROR_PREFIX + 'CVV is invalid'
-const ERROR_INVALID_EXPIRY      = ERROR_PREFIX + 'Expiry date has already passed'
+const ERROR_GENERIC             = 'Something went wrong'
+const ERROR_URL_NOT_PROVIDED    = 'URL not provided'
+const ERROR_URL_NOT_STRING      = 'URL must be of type string'
+const ERROR_KEY_NOT_PROVIDED    = '%KEY% is empty.'
+const ERROR_INVALID_CARD_HOLDER = 'Card holder name is invalid.'
+const ERROR_INVALID_CARD_NUMBER = 'Card number is invalid.'
+const ERROR_INVALID_CVV         = 'CVV is invalid.'
+const ERROR_INVALID_EXPIRY      = 'This expiry date has already passed.'
 
 /**
  * Client integration for a FatZebra instance.
