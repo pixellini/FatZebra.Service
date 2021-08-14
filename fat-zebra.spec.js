@@ -53,11 +53,11 @@ describe('FatZebra Service', () => {
         ${ 999 }    | ${ 'GATEWAY_ERROR' }
     `('should throw an error with a status code of $statusCode and return $errorCode as message code', async ({ statusCode, errorCode }) => {
         // Arrange
-        const expectedErrorObject = JSON.stringify({
+        const expectedErrorObject = {
             status: statusCode,
             statusCode: errorCode,
             message: 'Something went wrong. Please check your details and try again later.'
-        })
+        }
         const responseData = {
             r: statusCode
         }

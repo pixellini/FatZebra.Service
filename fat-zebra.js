@@ -122,16 +122,14 @@ class FatZebraService {
     checkResponseForErrors (res = {}) {
         const { r: status } = res
         
+        // Didn't return a status, something went really wrong.
         if (!status) {
-            throw(this.createErrorObject({
-                status: 999
-            }))
+            throw(this.createErrorObject({ status: 999 }))
         }
 
+        // Setting the card was not successful.
         if (status !== 1) {
-            const errorObj = this.createErrorObject({ status })
-
-            throw(JSON.stringify(errorObj))
+            throw(this.createErrorObject({ status }))
         }
     }
 
