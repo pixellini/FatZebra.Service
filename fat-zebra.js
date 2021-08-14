@@ -18,7 +18,7 @@ const REQUIRED_KEYS = [
     'expiry_year',
     'cvv'
 ]
-const ERROR_GENERIC             = 'Something went wrong'
+const ERROR_GENERIC             = 'Something went wrong. Please check your details and try again later.'
 const ERROR_URL_NOT_PROVIDED    = 'URL not provided'
 const ERROR_URL_NOT_STRING      = 'URL must be of type string'
 const ERROR_KEY_NOT_PROVIDED    = '%KEY% is empty.'
@@ -51,6 +51,14 @@ class FatZebraService {
         this.verification = verification
     }
 
+    createErrorObject ({ status, message }) {
+        return {
+            status,
+            statusCode: RESPONSE_CODES[status],
+            message: message || ERROR_GENERIC
+        }
+    }
+
     /**
      * Checks if a property within the data payload is missing.
      * 
@@ -76,28 +84,33 @@ class FatZebraService {
      */
     verifyPayload (data = {}) {
         const emptyDataKey = this.hasEmptyValue(data)
-
-        if (emptyDataKey) {
-            throw(ERROR_KEY_NOT_PROVIDED.replace('%KEY%', emptyDataKey))
-        }
-
-        if (!isLength(data.card_holder.trim(), { min: 2, max: 50 })) {
-            throw(ERROR_INVALID_CARD_HOLDER)
-        }
-
-        if (!isLength(data.card_number.trim(), { min: 16 })) {
-            throw(ERROR_INVALID_CARD_NUMBER)
-        }
-
-        if (!isLength(data.cvv.trim(), { min: 3 })) {
-            throw(ERROR_INVALID_CVV)
-        }
-
         const expiry = new Date(data.expiry_year, data.expiry_month)
         const now = new Date()
+        let message = ''
 
-        if(expiry.getTime() < now.getTime()) {
-            throw(ERROR_INVALID_EXPIRY)
+        if (emptyDataKey) {
+            message = ERROR_KEY_NOT_PROVIDED.replace('%KEY%', emptyDataKey)
+        }
+        // No Card holder
+        else if (!isLength(data.card_holder.trim(), { min: 2, max: 50 })) {
+            message = ERROR_INVALID_CARD_HOLDER
+        }
+        // 
+        else if (!isLength(data.card_number.trim(), { min: 16 })) {
+            message = ERROR_INVALID_CARD_NUMBER
+        }
+        else if (!isLength(data.cvv.trim(), { min: 3 })) {
+            message = ERROR_INVALID_CVV
+        }
+        else if(expiry.getTime() < now.getTime()) {
+            message = ERROR_INVALID_EXPIRY
+        }
+
+        if (message) {
+            throw(this.createErrorObject({
+                status: 97,
+                message
+            }))
         }
     }
 
@@ -107,15 +120,16 @@ class FatZebraService {
      * @param { Object } res - should contain an "r" key for the response status
      */
     checkResponseForErrors (res = {}) {
-        if (!res || !res.r) {
-            throw(ERROR_GENERIC)
+        const { r: status } = res
+        
+        if (!status) {
+            throw(this.createErrorObject({
+                status: 999
+            }))
         }
 
-        if (res.r !== 1) {
-            const errorObj = {
-                status: res.r,
-                code: RESPONSE_CODES[ res.r ]
-            }
+        if (status !== 1) {
+            const errorObj = this.createErrorObject({ status })
 
             throw(JSON.stringify(errorObj))
         }

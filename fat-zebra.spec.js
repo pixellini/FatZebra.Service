@@ -55,7 +55,8 @@ describe('FatZebra Service', () => {
         // Arrange
         const expectedErrorObject = JSON.stringify({
             status: statusCode,
-            code: errorCode
+            statusCode: errorCode,
+            message: 'Something went wrong. Please check your details and try again later.'
         })
         const responseData = {
             r: statusCode
@@ -93,7 +94,11 @@ describe('FatZebra Service', () => {
         ${ 'cvv' }
     `('should throw an error when the required $dataKey key is empty', async ({ dataKey }) => {
         // Arrange
-        const expectedError = `${ dataKey } is empty.`
+        const expectedError = {
+            message: `${ dataKey } is empty.`,
+            status: 97,
+            statusCode: 'INVALID_VALIDATION'
+        }
         const dataObject = {
             "card_holder": "John Smith",
             "card_number": "4005 5500 0000 0001",
