@@ -9,8 +9,8 @@ describe('FatZebra Service', () => {
     beforeEach(() => {
         zebraService = new FatZebraService({
             url: 'http://localhost:3000/fake-url',
-            return_path: 'au.com.lunchfox',
-            verification: '0050e20fb44e12f7f091f48ebfa63565'
+            return_path: 'au.com.organisation',
+            verification: '0011e24pn55e12f7f331f48ejrf03948'
         })
     })
 
